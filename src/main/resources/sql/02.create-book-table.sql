@@ -1,0 +1,15 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+CREATE TABLE book (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    title VARCHAR(255) NOT NULL,
+    category VARCHAR(255) NOT NULL,
+    genre VARCHAR(255) NOT NULL,
+    author VARCHAR(255) NOT NULL,
+    language VARCHAR(64) NOT NULL,
+    borrowed_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NULL,
+    returned_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NULL,
+    available BOOLEAN DEFAULT TRUE,
+    customer_id UUID DEFAULT NULL,
+    FOREIGN KEY (customer_id) REFERENCES customer(id)
+);
