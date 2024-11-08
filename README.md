@@ -28,21 +28,16 @@ The Library Management System (LMS) is a web application designed to manage the 
 ## How to Run the Project
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/your-username/lms.git
-    cd library-management-system
+    git clone https://github.com/CardozoJavier/lms.git
+    
+   cd lms
+    ```
+2. **Run the application**:
+    ```
+    docker-compose up
     ```
 
-2. **Build the project**:
-    ```bash
-    ./mvnw clean install
-    ```
-
-3. **Run the application**:
-    ```bash
-    ./mvnw spring-boot:run
-    ```
-
-4. **Access the application** at `http://localhost:8080`.
+4. **Access the application** at `http://localhost:8081`.
 
 ## Endpoints
 - **GET** `/api/users`: Retrieves a list of all users.
@@ -79,4 +74,4 @@ Contributions are welcome! Please read the [contribution guidelines](CONTRIBUTIN
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Contact
-For any questions or suggestions, please contact [your-email@example.com](mailto:your-email@example.com).
+For any questions or suggestions, please contact [cardozojavier.c@gmail.com](mailto:your-email@example.com).
