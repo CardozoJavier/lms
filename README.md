@@ -26,10 +26,16 @@ The Library Management System (LMS) is a web application designed to manage the 
 - **DTOs (Data Transfer Objects)**: Used for transferring data between different layers of the application.
 
 ## How to Run the Project
+
+Requirements:
+- docker
+- docker-compose (it usually comes with docker desktop)
+
 1. **Clone the repository**:
     ```bash
     git clone https://github.com/CardozoJavier/lms.git
-    
+   ```
+   ```
    cd lms
     ```
 2. **Run the application**:
@@ -50,25 +56,30 @@ The Library Management System (LMS) is a web application designed to manage the 
 ## Example Requests
 
 ### Borrow a Book
-```json
 POST /api/books/borrow
+```json
 {
-  "customerId": "customer-uuid-here",
-  "bookId": "book-uuid-here"
+  "userId": "96480537-bb78-4f9b-87b4-0fa67dba21b9",
+  "bookId": "696a4ed5-95bd-4a75-816f-f194279f82ad"
 }
 ```
 
 ### Return a Book
-```json
 POST /api/books/return
+```json
 {
-  "customerId": "customer-uuid-here",
-  "bookId": "book-uuid-here"
+  "userId": "96480537-bb78-4f9b-87b4-0fa67dba21b9",
+  "bookId": "96480537-bb78-4f9b-87b4-0fa67dba21b9"
 }
 ```
 
-## Contributing
-Contributions are welcome! Please read the [contribution guidelines](CONTRIBUTING.md) first.
+## Considerations
+
+Since `user` is a reserved word in PostgreSQL, and to avoid workarounds when creating the schemas, I replaced it with
+`customer`.
+
+For performance reasons, I chose to use `available` (a boolean) instead of `status` (a string) to determine book
+availability. Using a boolean allows for faster query and internal comparisons than using a string.
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

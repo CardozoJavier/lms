@@ -1,0 +1,9 @@
+# .dockerignore
+# Include SQL files explicitly
+!src/main/resources/sql/*.sql
+
+# Exclude other unnecessary files
+.git
+.gitignore
+target/
+*.md
