@@ -27,7 +27,7 @@ The Library Management System (LMS) is a web application designed to manage the 
 
 ## How to Run the Project
 
-Requirements:
+#### Requirements:
 - docker
 - docker-compose (it usually comes with docker desktop)
 
@@ -44,6 +44,13 @@ Requirements:
     ```
 
 4. **Access the application** at `http://localhost:8081`.
+
+### Optional - Development
+If you want to run the application locally using your IDE, run the following command
+```
+make dev
+```
+
 
 ## Endpoints
 - **GET** `/api/users`: Retrieves a list of all users.
@@ -79,7 +86,19 @@ Since `user` is a reserved word in PostgreSQL, and to avoid workarounds when cre
 `customer`.
 
 For performance reasons, I chose to use `available` (a boolean) instead of `status` (a string) to determine book
-availability. Using a boolean allows for faster query and internal comparisons than using a string.
+availability. Using a boolean allows for faster queries and internal comparisons than using a string.
+
+I joined only the minimum number of tables needed to retrieve the requested information and avoid performance
+degradation.
+
+### I defined the following relationships
+```mermaid
+    User        ||--o{ Book : "borrows"
+    User        ||--o{ Transaction : "makes"
+    Book        ||--o{ Transaction : "involved_in"
+    Transaction ||--|| User : "belongs_to"
+    Transaction ||--|| Book : "records"
+ ```
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
