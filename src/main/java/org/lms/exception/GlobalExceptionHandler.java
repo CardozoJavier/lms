@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponseDTO> handleNotFoundException(NotFoundException ex) {
         log.error("Not found exception: ", ex);
         ErrorResponseDTO error = new ErrorResponseDTO(
-                90001,
+                ex.getCode(),
                 ex.getMessage(),
                 LocalDateTime.now()
         );
@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponseDTO> handleBadRequestException(BadRequestException ex) {
         log.error("Bad request exception: ", ex);
         ErrorResponseDTO error = new ErrorResponseDTO(
-                90002,
+                ex.getCode(),
                 ex.getMessage(),
                 LocalDateTime.now()
         );
@@ -43,7 +43,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponseDTO> handleBookNotAvailableException(BookNotAvailableException ex) {
         log.error("Book not available exception: ", ex);
         ErrorResponseDTO error = new ErrorResponseDTO(
-                90003,
+                ex.getCode(),
                 ex.getMessage(),
                 LocalDateTime.now()
         );
