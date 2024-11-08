@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.lms.model.Book;
 import org.lms.model.Transaction;
 
 import java.time.LocalDateTime;
@@ -33,5 +34,11 @@ public class BookResponseDTO {
         this.genre = transaction.getBook().getGenre();
         this.author = transaction.getBook().getAuthor();
         this.language = transaction.getBook().getLanguage();
+    }
+
+    public void setReturnedAt(Book book, Transaction tx) {
+        if (book.getAvailable()) {
+            this.setReturnedAt(tx.getCreatedAt());
+        }
     }
 }

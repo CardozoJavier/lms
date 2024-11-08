@@ -7,6 +7,7 @@ import org.lms.dto.response.BookResponseDTO;
 import org.lms.exception.BookNotAvailableException;
 import org.lms.exception.NotFoundException;
 import org.lms.mapper.BookMapper;
+import org.lms.mapper.ErrorMapper;
 import org.lms.model.Book;
 import org.lms.model.Transaction;
 import org.lms.repository.BookRepository;
@@ -67,9 +68,10 @@ public class BookService {
         }
 
         if (book.isPresent()) {
-            throw new BookNotAvailableException(String.format("Book with title=%s is not available", book.get().getTitle()));
+            throw new BookNotAvailableException(ErrorMapper.BOOK_IS_NOT_AVAILABLE);
         }
-        throw new NotFoundException("Book with id=" + bookRequestDTO.getBookId() + " not found");
+        log.warn("Book with id={} not found", bookId);
+        throw new NotFoundException(ErrorMapper.BOOK_NOT_FOUND);
     }
 
     public Optional<BookResponseDTO> returnBook(BookRequestDTO bookRequestDTO) {
@@ -93,9 +95,11 @@ public class BookService {
         }
 
         if (book.isPresent()) {
-            throw new BookNotAvailableException(String.format("Book with title=%s is not borrowed", book.get().getTitle()));
+            log.warn("Book with id={} is not borrowed", bookId);
+            throw new BookNotAvailableException(ErrorMapper.BOOK_IS_NOT_BORROWED);
         }
-        throw new NotFoundException("Book with id=" + bookRequestDTO.getBookId() + " not found");
+        log.warn("Book with id={} not found", bookId);
+        throw new NotFoundException(ErrorMapper.BOOK_NOT_FOUND);
     }
 
     public Optional<List<BookResponseDTO>> getCurrentBorrowedByCustomer(BookRequestDTO bookRequestDTO) {
@@ -109,7 +113,6 @@ public class BookService {
 
         if (books.isEmpty()) {
             log.info("The customer has no books borrowed");
-            return Optional.empty();
         }
 
         log.info("Customer borrows {} books", books.size());
@@ -137,9 +140,9 @@ public class BookService {
                     historyBook.setBorrowedAt(transaction.getCreatedAt());
 
                     transactions.stream()
-                            .filter(tx1 -> tx1.getBook().getId().equals(transaction.getBook().getId()) && tx1.getType() == Transaction.Type.RETURN)
+                            .filter(tx -> tx.getBook().getId().equals(transaction.getBook().getId()) && tx.getType() == Transaction.Type.RETURN)
                             .findFirst()
-                            .ifPresent(tx2 -> historyBook.setReturnedAt(tx2.getCreatedAt()));
+                            .ifPresent(tx -> historyBook.setReturnedAt(tx.getBook(), tx));
                     return historyBook;
                 })
                 .collect(Collectors.toList());
@@ -149,11 +152,12 @@ public class BookService {
     }
 
     private void validateCustomer(UUID id) {
-        log.info("Exists customer by id={}", id);
+        log.info("Find customer by id={}", id);
         boolean existsCustomer = customerRepository.existsById(id);
 
         if (!existsCustomer) {
-            throw new NotFoundException("Customer with id=" + id + " not found");
+            log.warn("Customer with id={} not found", id);
+            throw new NotFoundException(ErrorMapper.CUSTOMER_NOT_FOUND);
         }
 
         log.info("Customer with id={} found", id);

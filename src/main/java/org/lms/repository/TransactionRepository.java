@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -19,12 +18,11 @@ import java.util.UUID;
 public class TransactionRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSS");
 
     public void insertTransaction(Transaction.Type type, UUID customerId, UUID bookId) {
-        String sql = "INSERT INTO transaction (type, customer_id, book_id) VALUES (:type, :customerId, :bookId)";
+        String sql = "INSERT INTO transaction (type, customer_id, book_id) VALUES (CAST(:type AS transaction_type), :customerId, :bookId)";
         MapSqlParameterSource params = new MapSqlParameterSource()
-                .addValue("type", type.toString())
+                .addValue("type", type.name())
                 .addValue("createdAt", LocalDateTime.now())
                 .addValue("updatedAt", LocalDateTime.now())
                 .addValue("customerId", customerId)

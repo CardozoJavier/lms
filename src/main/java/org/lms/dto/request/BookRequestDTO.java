@@ -1,11 +1,13 @@
 package org.lms.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.lms.exception.BadRequestException;
+import org.lms.mapper.ErrorMapper;
 import org.lms.utils.UUIDUtils;
 
 @Getter
@@ -14,6 +16,7 @@ import org.lms.utils.UUIDUtils;
 @NoArgsConstructor
 public class BookRequestDTO {
 
+    @JsonProperty("userId")
     private String customerId;
     private String bookId;
 
@@ -45,19 +48,19 @@ public class BookRequestDTO {
 
     public void validateCustomerId() {
         if (customerId == null) {
-            throw new BadRequestException("customerId must not be null");
+            throw new BadRequestException(ErrorMapper.USER_ID_MUST_NOT_BE_NULL);
         }
         if (!UUIDUtils.isValid(customerId)) {
-            throw new BadRequestException("customerId is not a valid UUID");
+            throw new BadRequestException(ErrorMapper.USER_ID_NOT_VALID);
         }
     }
 
     public void validateBookId() {
         if (bookId == null) {
-            throw new BadRequestException("bookId must not be null");
+            throw new BadRequestException(ErrorMapper.BOOK_ID_MUST_NOT_BE_NULL);
         }
         if (!UUIDUtils.isValid(bookId)) {
-            throw new BadRequestException("bookId is not a valid UUID");
+            throw new BadRequestException(ErrorMapper.BOOK_ID_NOT_VALID);
         }
     }
 }

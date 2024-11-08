@@ -2,6 +2,7 @@ package org.lms.repository;
 
 import lombok.AllArgsConstructor;
 import org.lms.model.Book;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -45,8 +46,12 @@ public class BookRepository {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("book_id", id);
 
-        Book result = jdbcTemplate.queryForObject(sql, params, bookMapper);
-        return result == null ? Optional.empty() : Optional.of(result);
+        try {
+            Book result = jdbcTemplate.queryForObject(sql, params, bookMapper);
+            return Optional.ofNullable(result);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     public List<Book> findAllNotAvailableByCustomerId(UUID customerId) {
