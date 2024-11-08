@@ -35,6 +35,7 @@ public class CustomerService {
             return Optional.empty();
         }
 
+        log.info("Customers found, total={}", customers.size());
         return Optional.of(customers.stream().map(c -> customerMapper.toDTO(c)).toList());
     }
 
