@@ -51,6 +51,11 @@ If you want to run the application locally using your IDE, run the following com
 make dev
 ```
 
+## Postman Collection
+Downlaod the postman collection from the following directory
+```
+src/main/resources/postman-collection/library-management.postman_collection.json
+```
 
 ## Endpoints
 - **GET** `/api/users`: Retrieves a list of all users.

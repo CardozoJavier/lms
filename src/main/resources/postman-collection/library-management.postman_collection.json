@@ -1,0 +1,181 @@
+{
+	"info": {
+		"_postman_id": "b8c5c600-23b5-48ab-8477-176b87cc4d34",
+		"name": "library-management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5393005"
+	},
+	"item": [
+		{
+			"name": "Get Books Borrowed By User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/users/:id/borrowed-books",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"users",
+						":id",
+						"borrowed-books"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "f6eb1ccc-b439-494e-afa2-cfde989cf0e1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User History",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8080/api/users/:id/history",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"users",
+						":id",
+						"history"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "f6eb1ccc-b439-494e-afa2-cfde989cf0e1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Books Available",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8080/api/books",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8080/api/users",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Borrow a Book",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"bookId\": \"7fb6d905-f08d-45ec-aa89-2deaf4feb45a\",\n    \"userId\": \"f6eb1ccc-b439-494e-afa2-cfde989cf0e1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8080/api/books/borrow",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"books",
+						"borrow"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Return a Book",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"bookId\": \"7fb6d905-f08d-45ec-aa89-2deaf4feb45a\",\n    \"userId\": \"f6eb1ccc-b439-494e-afa2-cfde989cf0e1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8080/api/books/return",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"books",
+						"return"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
