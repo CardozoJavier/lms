@@ -93,6 +93,7 @@ degradation.
 
 ### I defined the following relationships
 ```mermaid
+erDiagram
     User        ||--o{ Book : "borrows"
     User        ||--o{ Transaction : "makes"
     Book        ||--o{ Transaction : "involved_in"
