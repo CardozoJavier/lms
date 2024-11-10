@@ -1,6 +1,5 @@
 package org.lms.dto.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,9 +7,14 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@AllArgsConstructor
-public class ErrorResponseDTO {
+public class ErrorResponseDTO extends BaseResponseDTO {
+
     private int code;
     private String message;
-    private LocalDateTime timestamp;
+
+    public ErrorResponseDTO(int code, String message, LocalDateTime timestamp) {
+        super(false, timestamp);
+        this.code = code;
+        this.message = message;
+    }
 }

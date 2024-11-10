@@ -1,7 +1,10 @@
 package org.lms.repository;
 
 import lombok.AllArgsConstructor;
+import org.lms.exception.BadRequestException;
+import org.lms.mapper.ErrorMapper;
 import org.lms.model.Book;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -17,20 +20,38 @@ public class BookRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public List<Book> findAllByAvailableTrue() {
-        String sql = "SELECT * FROM book WHERE available = TRUE";
+    public Long countAllByAvailableTrue() {
+        String sql = "SELECT COUNT(*) FROM book WHERE available = TRUE";
+        try {
+            Long count = jdbcTemplate.queryForObject(sql, new HashMap<>(), Long.class);
+            return count != null ? count : 0;
+        } catch (DataAccessException e) {
+            return 0L;
+        }
+    }
 
-        List<Book> books = jdbcTemplate.query(sql, liteBookMapper);
-        return books.isEmpty() ? Collections.emptyList() : books;
+    public List<Book> findAllByAvailableTrue(Long totalRows, Integer limit, Integer offset) {
+        int maxPage = (int) Math.ceil((double) totalRows / limit) - 1;
+
+        if (offset > maxPage) {
+            throw new BadRequestException(ErrorMapper.INVALID_PAGINATION);
+        }
+
+        String sql = "SELECT * FROM book WHERE available = TRUE LIMIT :limit OFFSET :offset";
+        MapSqlParameterSource params = new MapSqlParameterSource()
+            .addValue("limit", limit)
+            .addValue("offset", limit * offset);
+
+        return jdbcTemplate.query(sql, params, liteBookMapper);
     }
 
     public Optional<Book> updateById(UUID id, UUID customerId, boolean available, LocalDateTime borrowedAt, LocalDateTime returnedAt) {
         MapSqlParameterSource params = new MapSqlParameterSource()
-                .addValue("book_id", id)
-                .addValue("customer_id", customerId)
-                .addValue("available", available)
-                .addValue("borrowed_at", borrowedAt)
-                .addValue("returned_at", returnedAt);
+            .addValue("book_id", id)
+            .addValue("customer_id", customerId)
+            .addValue("available", available)
+            .addValue("borrowed_at", borrowedAt)
+            .addValue("returned_at", returnedAt);
 
         String sql = "UPDATE book SET available = :available, borrowed_at = :borrowed_at, returned_at = :returned_at, customer_id = :customer_id " +
                 "WHERE book.id = :book_id";
@@ -80,15 +101,15 @@ public class BookRepository {
             customerId = UUID.fromString(customerIdStr);
         }
         return new Book(
-                UUID.fromString(rs.getString("id")),
-                rs.getString("title"),
-                rs.getString("category"),
-                rs.getString("genre"),
-                rs.getString("author"),
-                rs.getString("language"),
-                rs.getObject("borrowed_at", LocalDateTime.class),
-                rs.getObject("returned_at", LocalDateTime.class),
-                rs.getBoolean("available"),
-                customerId);
+            UUID.fromString(rs.getString("id")),
+            rs.getString("title"),
+            rs.getString("category"),
+            rs.getString("genre"),
+            rs.getString("author"),
+            rs.getString("language"),
+            rs.getObject("borrowed_at", LocalDateTime.class),
+            rs.getObject("returned_at", LocalDateTime.class),
+            rs.getBoolean("available"),
+            customerId);
     };
 }

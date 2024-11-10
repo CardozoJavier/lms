@@ -2,7 +2,9 @@ package org.lms.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.lms.dto.request.BookListRequestDTO;
 import org.lms.dto.request.BookRequestDTO;
+import org.lms.dto.response.BookListResponseDTO;
 import org.lms.dto.response.BookResponseDTO;
 import org.lms.exception.BookNotAvailableException;
 import org.lms.exception.NotFoundException;
@@ -34,17 +36,24 @@ public class BookService {
     private CustomerRepository customerRepository;
     private BookMapper mapper;
     
-    public Optional<List<BookResponseDTO>> getAllAvailable() {
-        log.info("Request all available books in library");
-        List<Book> books = bookRepository.findAllByAvailableTrue();
+    public Optional<BookListResponseDTO> getAllAvailable(BookListRequestDTO request) {
+        log.info("Request all available books in library, request={}", request);
+        request.validateRequest();
+        Long totalBooksAvailable = bookRepository.countAllByAvailableTrue();
 
-        if (books.isEmpty()) {
+        if (totalBooksAvailable == 0) {
             log.warn("No books available");
             return Optional.empty();
         }
+        log.info("Books available, total={}", totalBooksAvailable);
 
-        log.info("Books available, total={}", books.size());
-        return Optional.of(books.stream().map(b -> mapper.toDTO(b)).toList());
+        List<Book> books = bookRepository.findAllByAvailableTrue(totalBooksAvailable, request.getPageSize(), request.getPageNumber());
+        log.info("books found total={}", books.size());
+
+        BookListResponseDTO response = mapper.toListDTO(totalBooksAvailable, books, request.getPageSize(), request.getPageNumber());
+
+        log.info("Successful page with books={}", response.getData().size());
+        return Optional.of(response);
     }
 
     public Optional<BookResponseDTO> borrow(BookRequestDTO bookRequestDTO) {

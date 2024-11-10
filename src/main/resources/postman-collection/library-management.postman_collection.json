@@ -68,7 +68,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{host}}:8081/api/books",
+					"raw": "http://{{host}}:8081/api/books?pageNumber=0&pageSize=10",
 					"protocol": "http",
 					"host": [
 						"{{host}}"
@@ -77,6 +77,16 @@
 					"path": [
 						"api",
 						"books"
+					],
+					"query": [
+						{
+							"key": "pageNumber",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						}
 					]
 				}
 			},
