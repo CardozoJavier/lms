@@ -1,5 +1,6 @@
 # docker-compose.dev.yml - Development overrides
 services:
   app:
+    build: .
     profiles:
       - disabled # Prevents app container from starting in dev mode, allowing the one running through the IDE to be used
