@@ -12,12 +12,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/users/:id/borrowed-books",
+					"raw": "http://{{host}}:8081/api/users/:id/borrowed-books",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{host}}"
 					],
-					"port": "8080",
+					"port": "8081",
 					"path": [
 						"api",
 						"users",
@@ -40,15 +40,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8080/api/users/:id/history",
+					"raw": "http://{{host}}:8081/api/users/:id/history",
 					"protocol": "http",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{host}}"
 					],
-					"port": "8080",
+					"port": "8081",
 					"path": [
 						"api",
 						"users",
@@ -71,15 +68,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8080/api/books",
+					"raw": "http://{{host}}:8081/api/books",
 					"protocol": "http",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{host}}"
 					],
-					"port": "8080",
+					"port": "8081",
 					"path": [
 						"api",
 						"books"
@@ -94,15 +88,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8080/api/users",
+					"raw": "http://{{host}}:8081/api/users",
 					"protocol": "http",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{host}}"
 					],
-					"port": "8080",
+					"port": "8081",
 					"path": [
 						"api",
 						"users"
@@ -126,15 +117,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8080/api/books/borrow",
+					"raw": "http://{{host}}:8081/api/books/borrow",
 					"protocol": "http",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{host}}"
 					],
-					"port": "8080",
+					"port": "8081",
 					"path": [
 						"api",
 						"books",
@@ -159,15 +147,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8080/api/books/return",
+					"raw": "http://{{host}}:8081/api/books/return",
 					"protocol": "http",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{host}}"
 					],
-					"port": "8080",
+					"port": "8081",
 					"path": [
 						"api",
 						"books",
