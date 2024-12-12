@@ -16,7 +16,11 @@ public enum ErrorMapper {
     BOOK_ID_MUST_NOT_BE_NULL(90008, "`bookId` must not be null"),
     BOOK_ID_NOT_VALID(90009, "`bookId` is not a valid UUID"),
     USER_ID_MUST_NOT_BE_NULL(90010, "`userId` must not be null"),
-    USER_ID_NOT_VALID(90011, "`userId` is not a valid UUID");
+    USER_ID_NOT_VALID(90011, "`userId` is not a valid UUID"),
+    INVALID_PAGE_SIZE(90012, "Invalid page size"),
+    INVALID_PAGE_NUMBER(90013, "Invalid page number"),
+    INVALID_PAGINATION(90014, "Invalid page size or page number");
+
 
     private final int code;
     private final String message;
